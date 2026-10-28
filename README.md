@@ -1,3 +1,7 @@
+<p align="center">
+<img src="ccc-mark.png" alt="Compare Cloud Costs logo" width="160">
+</p>
+
 # Compare Cloud Costs — MCP Server
 
 A standalone [Model Context Protocol](https://modelcontextprotocol.io) server that gives your AI assistant access to the [Compare Cloud Costs](https://comparecloudcosts.com) pricing catalog — cloud and AI model pricing across AWS, Azure, Google Cloud, Oracle, DigitalOcean, Alibaba, Cloudflare and the frontier AI providers, aligned to the FinOps FOCUS™ standard.
