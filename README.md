@@ -1,5 +1,5 @@
 <p align="center">
-<img src="ccc-mark.png" alt="Compare Cloud Costs logo" width="160">
+<a href="https://comparecloudcosts.com/yourcloud"><img src="ccc-logo-shield-transparent.png" alt="Compare Cloud Costs logo" width="160"></a>
 </p>
 
 # Compare Cloud Costs — MCP Server
