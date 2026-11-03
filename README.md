@@ -140,3 +140,7 @@ node test/smoke.mjs  # optional smoke test (set CCC_SMOKE_KEY to include API cal
 ## License
 
 MIT
+
+---
+
+<p align="center">© 2026 Cosell Plus LLC. Compare Cloud Costs™ is a product of Cosell Plus LLC. All rights reserved.</p>
