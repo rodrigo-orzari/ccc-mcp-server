@@ -4,7 +4,7 @@ A comprehensive, production-grade guide for developers, platform engineers, and 
 
 ---
 
-## 1. Executive Summary & Architecture Overview
+## 1. Summary & Architecture Overview
 
 The **Compare Cloud Costs MCP Server** implements the [Model Context Protocol (MCP)](https://modelcontextprotocol.io) open standard (stdio transport). It connects large language models directly to the live CCC cloud catalog, enabling AI assistants to perform real-time FinOps pricing comparisons, model token evaluations, and architecture cost modeling without leaving the IDE or chat interface.
 
