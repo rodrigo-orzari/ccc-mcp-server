@@ -115,6 +115,55 @@ Results are ordered by price ascending (cheapest first) by the API. The server r
 
 Wired to the site's real estimator: `POST https://comparecloudcosts.com/api/workloads` with `{ "workloadId": "<id>" }`, which returns per-provider monthly totals and a component breakdown (instance types, quantities, monthly prices) computed from catalog pricing records (refreshed about once a week). The tool returns those totals and components as-is. Unknown IDs return the API's "Workload not found" plus the list of valid IDs — numbers are never invented.
 
+All 36 site architecture templates are supported:
+
+| Workload Name | Canonical Slug | Description |
+| --- | --- | --- |
+| Serverless Fallback & Resiliency Buffer | `serverless-fallback-buffer` | A resilient middleware buffer placed in front of serverless functions. Catches traffic spikes or cold-start timeouts by queuing requests into a persistent queue, caching session state, and dispatching to a failover VM worker pool. |
+| AI Gateway, Guardrails & Caching Proxy | `ai-gateway-proxy` | An enterprise middleware proxy positioned between internal applications and external LLM vendors. Enforces prompt security guardrails (WAF), performs semantic prompt caching, rate-limits tenant requests, and manages API keys securely. |
+| Enterprise API Gateway & Auth Middleware | `api-rate-limiting-auth-gateway` | A standalone security & integration middleware layer placed in front of legacy or internal microservices to handle OAuth token validation, IP rate-limiting, TLS termination, and traffic shaping. |
+| Cross-Cloud Event Router & Message Broker | `cross-cloud-event-router` | A cross-cloud middleware layer connecting disparate applications across AWS, Azure, GCP, and hybrid environments, converting event schemas and guaranteeing asynchronous delivery. |
+| RAG AI Application | `rag-ai-app` | A generative AI application using a Foundational Model connected to a Vector Database to search proprietary documents and return grounded answers. |
+| Containerized API via Load Balancer (ALB + Containers) | `container-api-alb` | Exposes a containerized orders & payments API directly behind an internet-facing Application Load Balancer (Client → ALB → Managed Containers → Database) without an API Gateway. ALB handles path-based routing (/orders, /payments), target group health checks, traffic distribution, TLS termination, and native OIDC/JWT verification. |
+| Serverless HTTP API (HTTP Gateway + Functions + NoSQL) | `serverless-http-api` | A lean, low-cost serverless API pattern (Client → HTTP API Gateway → Serverless Functions → Managed NoSQL) featuring a native JWT authorizer, stage- and route-level throttling, and built-in CORS — with no load balancer or idle compute to provision. |
+| External Partner API (REST Gateway + Internal ALB + Containers) | `external-partner-rest-api` | A managed external partner API architecture (Partner → REST API Gateway → VPC Link V2 → Internal ALB → Managed Containers → Database). Combines REST API keys, per-client usage plans and quotas, request validation/transformation, and direct WAF integration at the edge with an internal ALB for private container health checks and traffic distribution. |
+| Serverless Web Application | `serverless-web-app` | A scalable, low-maintenance backend without provisioning servers. Perfect for event-driven web and mobile backends. |
+| Classic 3-Tier Web Architecture | `3-tier-web` | The foundational blueprint for monolithic or traditionally scaled web applications using VMs and relational databases. The deliberate minimal baseline. |
+| Real-time Streaming Analytics | `realtime-streaming-analytics` | A highly demanded architecture for processing IoT telemetry, clickstreams, or financial data in real time. |
+| E-Commerce Microservices Stack | `ecommerce-microservices` | A resilient, decoupled architecture designed for high availability, fast product lookups, and fault tolerance. |
+| ML Training & Hosting | `ml-training-hosting` | A pipeline for training machine-learning models on GPU clusters and serving them through a managed inference endpoint. |
+| Kubernetes App Platform | `k8s-app-platform` | A general-purpose container platform for running microservices and stateful applications on managed Kubernetes. |
+| HPC / Scientific Computing | `hpc-scientific` | A high-performance computing cluster for simulations, modeling, and batch scientific workloads. |
+| SaaS on Managed Platform | `saas-paas-app` | A multi-tenant SaaS product running on a managed application platform (PaaS) with a relational backend. |
+| Data Warehouse & BI | `data-warehouse-bi` | A cloud data warehouse feeding business-intelligence dashboards, fed by an ETL pipeline. |
+| 11-Layer Defense-in-Depth Production Architecture (Multi-AZ Analytics & Containers) | `defense-in-depth-analytics-platform` | A production-grade 11-layer, Multi-AZ architecture demonstrating defense-in-depth from edge to data layer: Edge DDoS/DNS/TLS/GuardDuty/KMS, Layer-7 WAF, dual public ALBs (Shiny & RStudio), private ECS Fargate + EC2 Auto Scaling container fleets with outbound egress filtering, PrivateLink VPC isolation, SFTP (Transfer Family) + direct S3 ingestion, DataSync, shared EFS storage, and serverless SQL analytics (Athena via JDBC). |
+| Disaster Recovery (Warm Standby) | `disaster-recovery` | A cross-region warm-standby environment that can take over if the primary region fails. |
+| Content & Media Platform | `content-media-platform` | A video/media platform that transcodes uploads and delivers content globally through a CDN. |
+| Compliance-Ready Web Application | `compliance-ready-web-app` | A 3-tier web app hardened with managed security services for teams in regulated industries handling sensitive data. Security add-ons scale with the Security slider. |
+| RAG AI Knowledge Base | `rag-ai-knowledge-base` | A retrieval-augmented generation pipeline for AI chat and search — document storage, a metadata store, an API layer, embeddings, orchestration, and a managed inference endpoint. |
+| Smart Manufacturing (IIoT) | `smart-manufacturing` | An Industrial IoT (IIoT) platform for real-time sensor analytics — edge collection, stream ingestion, live metrics storage, historical analytics, and predictive maintenance. |
+| Event-Driven Image Processing | `event-driven-image-processing` | An event-driven architecture that processes uploaded images (e.g., ID verification, insurance claims) by triggering serverless functions to run AI vision models and store the extracted metadata. |
+| Hybrid Cloud Network Backbone | `hybrid-cloud-network` | A robust networking architecture connecting on-premises data centers to cloud resources via dedicated connections and secure gateways. |
+| Zero-Trust Enterprise Edge | `zero-trust-edge` | A secure, global entry point that strictly authenticates all users and devices, mitigating bots and edge threats before traffic hits the application. |
+| Event-Driven API Backend | `event-driven-api` | An agile, fully serverless microservices backend combining managed API gateways, message queues, and rapid cache lookups. |
+| Voice AI Assistant | `voice-ai-assistant` | A speech-to-speech AI pipeline — incoming audio is transcribed, interpreted by a conversational LLM, and answered with a synthesized voice reply. Showcases how AI modality (Audio vs. Chat) and capability tier (Frontier vs. Standard) drive different AI product rows within one architecture. |
+| Autonomous Agent Swarm | `agentic-ai-swarm` | A distributed multi-agent system where specialized AI agents autonomously collaborate, route tasks via message queues, and share transient state in memory. |
+| Distributed Saga & Compensating Workflows | `saga-orchestrated-ecommerce` | Coordinates multi-service distributed transactions (e.g. Order → Payment → Inventory) using an orchestrator state machine. When a downstream step fails (such as stockout), automatically triggers compensating undo actions (payment refund, order cancellation) without distributed locks. |
+| Transactional Outbox & Stream Relay | `transactional-outbox-cdc` | Guarantees reliable dual writes between relational databases and event brokers. Orders and outbox events commit in a single ACID transaction, while a dedicated Change Data Capture (CDC) worker stream-relays messages to the event bus with zero message loss. |
+| Partitioned Pub/Sub with Consumer Groups | `partitioned-pubsub-consumer-groups` | Scales event-driven task distribution across independent downstream systems (Email, Inventory, Analytics). Hash-keyed partitioning preserves strict per-entity ordering while competing consumer groups scale throughput horizontally with Redis idempotency guards. |
+| CQRS & Event Sourcing Architecture | `cqrs-event-sourcing` | Separates write commands from read queries for optimal scaling and zero-data-loss auditability. Changes are recorded to an append-only event store, and asynchronous projection stream workers continuously update read-optimized materialized views. |
+| CDC-Driven Cache Invalidation & Event Sync | `cdc-cache-invalidation` | Eliminates cache-aside race conditions, app-crash inconsistencies, and stale data by tailing database Write-Ahead Logs (WAL/binlog) via Change Data Capture (CDC). Stream events are consumed by an event-driven worker that evicts or refreshes affected keys directly in a distributed in-memory cache. |
+| Multi-Tier Layered Caching Architecture | `multi-tier-caching-web-stack` | A high-throughput, latency-optimized web stack employing a 3-tier caching hierarchy: Edge CDN (static assets & public HTTP caching), container in-process micro-cache (L1 with jittered TTLs), and a shared distributed cache (L2 Redis/Valkey cluster with stampede mutex locks) shielding transactional database read replicas. |
+| Customer Portal | `customer-portal` | A secure customer-facing portal — authenticated sign-in, edge protection, serverless APIs for spiky traffic, core services on Kubernetes, orders and payments with compensating workflows, managed relational + NoSQL data. |
+
+#### Backward Compatibility & Aliases
+Every slug accepted previously by the MCP server remains functional via automatic alias resolution:
+- `streaming-analytics` → mapped to `realtime-streaming-analytics`
+- `three-tier-web-app` & `three-tier-web` → mapped to `3-tier-web`
+- `ai-rag-pipeline` → mapped to `rag-ai-app`
+- `high-throughput-api` → mapped to `container-api-alb`
+- `batch-processing` → mapped to `hpc-scientific`
+
 ### `lookup_datacenter_compliance`
 
 Regional availability is computed from the site's facets endpoint, `GET https://comparecloudcosts.com/api/facets?product=compute[&geography=…]` (the same endpoint that powers the website's filter sidebar), which returns catalog-wide record counts per geography and per provider with proper faceted-search semantics. This is deliberately **not** derived from a sample of pricing records — the pricing endpoint returns records cheapest-first, which badly under-reports non-US geographies.

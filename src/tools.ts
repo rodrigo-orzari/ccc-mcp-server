@@ -75,7 +75,7 @@ export const TOOLS: McpToolDefinition[] = [
       properties: {
         workload_id: {
           type: 'string',
-          description: 'Pre-modeled workload slug (e.g. three-tier-web-app, ai-rag-pipeline, high-throughput-api, batch-processing)'
+          description: 'Pre-modeled workload slug (e.g. 3-tier-web, customer-portal, rag-ai-app, realtime-streaming-analytics, k8s-app-platform)'
         }
       },
       required: ['workload_id']

@@ -34,31 +34,56 @@ const PAGE_LIMIT = "500";
  *  examples in the catalog's workload_id description predate the current
  *  catalog, so unknown IDs get this list back in the error message. */
 const KNOWN_WORKLOAD_IDS = [
-  "3-tier-web",
-  "serverless-web-app",
-  "rag-ai-app",
+  "serverless-fallback-buffer",
   "ai-gateway-proxy",
   "api-rate-limiting-auth-gateway",
   "cross-cloud-event-router",
-  "serverless-fallback-buffer",
-  "k8s-app-platform",
+  "rag-ai-app",
+  "container-api-alb",
+  "serverless-http-api",
+  "external-partner-rest-api",
+  "serverless-web-app",
+  "3-tier-web",
+  "realtime-streaming-analytics",
   "ecommerce-microservices",
-  "streaming-analytics",
+  "ml-training-hosting",
+  "k8s-app-platform",
+  "hpc-scientific",
+  "saas-paas-app",
   "data-warehouse-bi",
+  "defense-in-depth-analytics-platform",
   "disaster-recovery",
   "content-media-platform",
   "compliance-ready-web-app",
+  "rag-ai-knowledge-base",
   "smart-manufacturing",
-  "hpc-scientific",
-  "saas-paas-app",
-  "ml-training-hosting",
   "event-driven-image-processing",
-  "event-driven-api",
   "hybrid-cloud-network",
   "zero-trust-edge",
+  "event-driven-api",
   "voice-ai-assistant",
   "agentic-ai-swarm",
+  "saga-orchestrated-ecommerce",
+  "transactional-outbox-cdc",
+  "partitioned-pubsub-consumer-groups",
+  "cqrs-event-sourcing",
+  "cdc-cache-invalidation",
+  "multi-tier-caching-web-stack",
+  "customer-portal",
 ];
+
+/** Aliases for backward compatibility or alternative naming conventions.
+ *  Ensures every historical slug continues to work seamlessly. */
+const WORKLOAD_ALIASES: Record<string, string> = {
+  // Rename alias
+  "streaming-analytics": "realtime-streaming-analytics",
+  // Historical / descriptive aliases
+  "three-tier-web-app": "3-tier-web",
+  "three-tier-web": "3-tier-web",
+  "ai-rag-pipeline": "rag-ai-app",
+  "high-throughput-api": "container-api-alb",
+  "batch-processing": "hpc-scientific",
+};
 
 type ToolResult = {
   content: { type: "text"; text: string }[];
@@ -148,15 +173,18 @@ async function handleSearchAiModels(
 async function handleEstimateWorkloadArchitecture(
   args: Record<string, unknown>
 ): Promise<ToolResult> {
-  const workloadId =
-    typeof args.workload_id === "string" ? args.workload_id : "";
-  if (!workloadId) {
+  const rawWorkloadId =
+    typeof args.workload_id === "string" ? args.workload_id.trim() : "";
+  if (!rawWorkloadId) {
     return errorResult(
       "workload_id is required. Known workload IDs include: " +
         KNOWN_WORKLOAD_IDS.join(", ") +
         ". Full catalog: https://comparecloudcosts.com/workloads"
     );
   }
+
+  // Resolve alias if present (e.g. streaming-analytics -> realtime-streaming-analytics)
+  const workloadId = WORKLOAD_ALIASES[rawWorkloadId] ?? rawWorkloadId;
 
   // POST /api/workloads is the site's own estimator endpoint
   // (src/app/api/workloads/route.ts in rodrigo-orzari/ccc): body
@@ -179,7 +207,7 @@ async function handleEstimateWorkloadArchitecture(
   const body: any = await res.json().catch(() => undefined);
   if (res.status === 404 || body?.error === "Workload not found") {
     return errorResult(
-      `Workload "${workloadId}" was not found. Known workload IDs include: ` +
+      `Workload "${rawWorkloadId}" was not found. Known workload IDs include: ` +
         KNOWN_WORKLOAD_IDS.join(", ") +
         ". Full catalog: https://comparecloudcosts.com/workloads"
     );
