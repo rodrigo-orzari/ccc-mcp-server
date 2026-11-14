@@ -75,7 +75,7 @@ export const TOOLS: McpToolDefinition[] = [
       properties: {
         workload_id: {
           type: 'string',
-          description: 'Pre-modeled workload slug (e.g. 3-tier-web, customer-portal, rag-ai-app, realtime-streaming-analytics, k8s-app-platform)'
+          description: 'Pre-modeled workload slug (e.g. 3-tier-web, customer-portal, kubernetes-ingress-gateway, remote-mcp-server, llm-inference-serving, ephemeral-ci-cd-runners, rag-ai-app, realtime-streaming-analytics, k8s-app-platform)'
         }
       },
       required: ['workload_id']

@@ -70,6 +70,10 @@ const KNOWN_WORKLOAD_IDS = [
   "cdc-cache-invalidation",
   "multi-tier-caching-web-stack",
   "customer-portal",
+  "kubernetes-ingress-gateway",
+  "remote-mcp-server",
+  "llm-inference-serving",
+  "ephemeral-ci-cd-runners",
 ];
 
 /** Aliases for backward compatibility or alternative naming conventions.
