@@ -117,7 +117,7 @@ Results are ordered by price ascending (cheapest first) by the API. The server r
 
 Wired to the site's real estimator: `POST https://comparecloudcosts.com/api/workloads` with `{ "workloadId": "<id>" }`, which returns per-provider monthly totals and a component breakdown (instance types, quantities, monthly prices) computed from catalog pricing records (refreshed about once a week). The tool returns those totals and components as-is. Unknown IDs return the API's "Workload not found" plus the list of valid IDs — numbers are never invented.
 
-All 36 site architecture templates are supported:
+All 40 site architecture templates are supported:
 
 | Workload Name | Canonical Slug | Description |
 | --- | --- | --- |
@@ -142,7 +142,7 @@ All 36 site architecture templates are supported:
 | Disaster Recovery (Warm Standby) | `disaster-recovery` | A cross-region warm-standby environment that can take over if the primary region fails. |
 | Content & Media Platform | `content-media-platform` | A video/media platform that transcodes uploads and delivers content globally through a CDN. |
 | Compliance-Ready Web Application | `compliance-ready-web-app` | A 3-tier web app hardened with managed security services for teams in regulated industries handling sensitive data. Security add-ons scale with the Security slider. |
-| RAG AI Knowledge Base | `rag-ai-knowledge-base` | A retrieval-augmented generation pipeline for AI chat and search — document storage, a metadata store, an API layer, embeddings, orchestration, and a managed inference endpoint. |
+| RAG AI Knowledge Base | `rag-ai-knowledge-base` | A retrieval-augmented generation pipeline for AI chat and search — document storage, a metadata store, an API layer, embeddings, orchestration, and a managed inference endpoint. Supports BYOC vs Managed deployment models. |
 | Smart Manufacturing (IIoT) | `smart-manufacturing` | An Industrial IoT (IIoT) platform for real-time sensor analytics — edge collection, stream ingestion, live metrics storage, historical analytics, and predictive maintenance. |
 | Event-Driven Image Processing | `event-driven-image-processing` | An event-driven architecture that processes uploaded images (e.g., ID verification, insurance claims) by triggering serverless functions to run AI vision models and store the extracted metadata. |
 | Hybrid Cloud Network Backbone | `hybrid-cloud-network` | A robust networking architecture connecting on-premises data centers to cloud resources via dedicated connections and secure gateways. |
@@ -157,6 +157,10 @@ All 36 site architecture templates are supported:
 | CDC-Driven Cache Invalidation & Event Sync | `cdc-cache-invalidation` | Eliminates cache-aside race conditions, app-crash inconsistencies, and stale data by tailing database Write-Ahead Logs (WAL/binlog) via Change Data Capture (CDC). Stream events are consumed by an event-driven worker that evicts or refreshes affected keys directly in a distributed in-memory cache. |
 | Multi-Tier Layered Caching Architecture | `multi-tier-caching-web-stack` | A high-throughput, latency-optimized web stack employing a 3-tier caching hierarchy: Edge CDN (static assets & public HTTP caching), container in-process micro-cache (L1 with jittered TTLs), and a shared distributed cache (L2 Redis/Valkey cluster with stampede mutex locks) shielding transactional database read replicas. |
 | Customer Portal | `customer-portal` | A secure customer-facing portal — authenticated sign-in, edge protection, serverless APIs for spiky traffic, core services on Kubernetes, orders and payments with compensating workflows, managed relational + NoSQL data. |
+| Kubernetes Ingress & API Gateway | `kubernetes-ingress-gateway` | Managed Kubernetes cluster fronted by an API Gateway / Ingress Controller (TLS termination, path routing, and JWT validation), distributing traffic to microservices pods. |
+| Remote MCP Server | `remote-mcp-server` | An enterprise front door hosting Model Context Protocol (MCP) servers behind an edge CDN/gateway with mTLS/OAuth authentication, serverless or container compute, and tool call routing across providers. |
+| LLM Inference Serving | `llm-inference-serving` | Production-scale LLM inference cluster pairing vLLM/TensorRT-LLM GPU worker pools with KV-cache-aware load balancing (prefix hash routing), priced both per instance hour and per completed 1K-token request. |
+| Ephemeral CI/CD Runner Platform | `ephemeral-ci-cd-runners` | Dynamic autoscaling build fleet running on preemptible/Spot capacity (Docker Autoscaler/Fleeting) across x86_64 and ARM64 architectures, scaling strictly to zero between jobs and framed per build. |
 
 #### Backward Compatibility & Aliases
 Every slug accepted previously by the MCP server remains functional via automatic alias resolution:
