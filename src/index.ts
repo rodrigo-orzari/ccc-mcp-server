@@ -131,7 +131,7 @@ async function handleCompareCloudPricing(
     .map((r) => trimPricingRecord(r, false));
 
   const header =
-    `${count} pricing record(s) returned by the Compare Cloud Costs API ` +
+    `${count} distinct configuration(s) returned by the Compare Cloud Costs API ` +
     `(product=${product}` +
     (typeof args.provider === "string" ? `, provider=${args.provider}` : "") +
     (geography ? `, geography=${geography}` : "") +
@@ -161,7 +161,7 @@ async function handleSearchAiModels(
     .map((r) => trimPricingRecord(r, true));
 
   const header =
-    `${count} AI model pricing record(s) returned by the Compare Cloud Costs API` +
+    `${count} AI model configuration(s) returned by the Compare Cloud Costs API` +
     (typeof args.provider === "string" ? ` for provider=${args.provider}` : "") +
     (typeof args.model_family === "string"
       ? ` matching "${args.model_family}"`
@@ -299,25 +299,25 @@ async function handleLookupDatacenterCompliance(
   const lines: string[] = [];
   lines.push(
     `Regional availability from the Compare Cloud Costs pricing catalog ` +
-      `(facet counts over all compute records in the current catalog` +
+      `(facet counts of distinct configurations in the current catalog` +
       (geography
-        ? `; provider counts are filtered to geography="${geography}"`
+        ? `; provider configuration counts are filtered to geography="${geography}"`
         : "") +
       `):`
   );
   lines.push("");
-  lines.push("Priced compute records by geography (whole catalog):");
+  lines.push("Compute configurations by geography (whole catalog):");
   lines.push(JSON.stringify(geographyCounts, null, 2));
   lines.push("");
   lines.push(
     geography
-      ? `Priced compute records by provider in ${geography}:`
-      : "Priced compute records by provider (whole catalog):"
+      ? `Compute configurations by provider in ${geography}:`
+      : "Compute configurations by provider (whole catalog):"
   );
   lines.push(JSON.stringify(providerCounts, null, 2));
   if (geography && Object.keys(providerCounts).length === 0) {
     lines.push(
-      `No priced compute records in the catalog are currently tagged with ` +
+      `No compute configurations in the catalog are currently tagged with ` +
         `geography "${geography}" — regional coverage in the pricing data is ` +
         `still concentrated in the geographies listed above. The ` +
         `https://comparecloudcosts.com/datacenters page tracks provider ` +
